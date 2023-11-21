@@ -7,4 +7,5 @@ interface IMovie {
     Year:string;
     Poster:string;
     imdbID:string;
+    isChosen: boolean;
 }
