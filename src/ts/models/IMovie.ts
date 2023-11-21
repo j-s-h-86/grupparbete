@@ -2,7 +2,7 @@ export interface IOmdbResponse {
     Search:IMovie[];
 }
 
-interface IMovie {
+export interface IMovie {
     Title:string;
     Year:string;
     Poster:string;

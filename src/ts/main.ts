@@ -1,6 +1,6 @@
 import axios from 'axios'
 import './../style.scss'
-import { IOmdbResponse } from './models/IMovie';
+import { IMovie, IOmdbResponse } from './models/IMovie';
 
 const getMovies = async () => {
     const response = await axios.get<IOmdbResponse>("https://www.omdbapi.com/?apikey=b15f392c&s=harry");
@@ -8,14 +8,14 @@ const getMovies = async () => {
     return movies;
 
 }
-const movies = await getMovies();
-
+let movies = await getMovies();
+let clickedMovies:IMovie[] = [];
 const con1 = (document.getElementById("container1") as HTMLElement);
 const con2 = (document.getElementById("container2") as HTMLElement);
 
-function createHtml(container:HTMLElement,){
+function createHtml(container:HTMLElement, list:IMovie[]){
 container.innerHTML = "";
-movies.forEach((listItem)=>{
+list.forEach((listItem, i)=>{
 const movieContainer = document.createElement("div");
 if (listItem.isChosen){
     const imgcontainer = document.createElement("div");
@@ -34,6 +34,14 @@ else {
     const year = document.createElement("p");
     title.innerHTML = listItem.Title;
     year.innerHTML = listItem.Year;
+    title.addEventListener("click", () => {
+        listItem.isChosen = true;
+        clickedMovies.push(listItem);
+        list.splice(i, 1);
+        createHtml(con1, list);
+        createHtml(con2, clickedMovies);
+        console.log(list, clickedMovies);
+    })
 
     movieContainer.appendChild(title);
     movieContainer.appendChild(year);
@@ -42,5 +50,5 @@ container.appendChild(movieContainer);
 })
 }
 
-createHtml(con1);
-createHtml(con2);
+createHtml(con1, movies);
+// createHtml(con2, clickedMovies);
