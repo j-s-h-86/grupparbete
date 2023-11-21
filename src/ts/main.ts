@@ -43,3 +43,4 @@ container.appendChild(movieContainer);
 }
 
 createHtml(con1);
+createHtml(con2);
